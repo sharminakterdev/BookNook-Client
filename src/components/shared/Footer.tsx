@@ -1,3 +1,6 @@
+
+
+
 import Link from "next/link";
 import {
   FaBookOpen,
@@ -152,7 +155,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="border-t border-gray-700 mt-12 pt-6 text-center">
           <p className="text-sm text-gray-400">
-            © {new Date().getFullYear()} BookNook. All rights reserved.
+           © 2026 BookNook. All rights reserved.
           </p>
         </div>
 

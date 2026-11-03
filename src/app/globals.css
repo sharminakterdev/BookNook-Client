@@ -20,8 +20,154 @@
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+
+/* BookNook Hero Slider */
+
+.book-hero {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 20px;
+  margin: 25px auto;
+}
+
+.book-hero-swiper {
+  width: 100%;
+  height: 520px;
+}
+
+.book-hero-slide {
+  width: 100%;
+  height: 520px;
+  background-size: cover;
+  background-position: center;
+}
+
+.book-hero-overlay {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 60px 9%;
+  background: linear-gradient(
+    90deg,
+    rgba(10, 35, 29, 0.95) 0%,
+    rgba(10, 35, 29, 0.78) 45%,
+    rgba(10, 35, 29, 0.15) 100%
+  );
+}
+
+.book-hero-content {
+  max-width: 650px;
+  color: white;
+}
+
+.book-hero-subtitle {
+  display: inline-block;
+  color: #c6e6a7;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+
+.book-hero-content h1 {
+  font-size: clamp(36px, 5vw, 65px);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 22px;
+}
+
+.book-hero-content p {
+  font-size: 17px;
+  line-height: 1.8;
+  color: #e5e7eb;
+  max-width: 530px;
+  margin-bottom: 32px;
+}
+
+.book-hero-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  background: #c5e5a0;
+  color: #173c2d;
+  padding: 15px 27px;
+  border-radius: 8px;
+  font-weight: 700;
+  transition: all 0.3s ease;
+}
+
+.book-hero-button:hover {
+  background: white;
+  transform: translateY(-3px);
+}
+
+.book-hero-button span {
+  font-size: 22px;
+}
+
+.book-hero-swiper .swiper-pagination {
+  bottom: 22px !important;
+}
+
+.book-hero-swiper .swiper-pagination-bullet {
+  background: white;
+  opacity: 0.6;
+  width: 9px;
+  height: 9px;
+}
+
+.book-hero-swiper .swiper-pagination-bullet-active {
+  background: #c5e5a0;
+  opacity: 1;
+  width: 28px;
+  border-radius: 10px;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .book-hero,
+  .book-hero-swiper,
+  .book-hero-slide {
+    height: 430px;
+  }
+
+  .book-hero {
+    border-radius: 12px;
+  }
+
+  .book-hero-overlay {
+    padding: 35px 25px;
+    background: linear-gradient(
+      90deg,
+      rgba(10, 35, 29, 0.92),
+      rgba(10, 35, 29, 0.55)
+    );
+  }
+
+  .book-hero-content h1 {
+    font-size: 37px;
+  }
+
+  .book-hero-content p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .book-hero,
+  .book-hero-swiper,
+  .book-hero-slide {
+    height: 390px;
+  }
+
+  .book-hero-content h1 {
+    font-size: 32px;
+  }
+
+  .book-hero-subtitle {
+    font-size: 11px;
+    letter-spacing: 2px;
+  }
 }

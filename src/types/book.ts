@@ -6,5 +6,6 @@ export interface Book {
   image: string;
   description?: string;
   totalCopies?: number;
+  availableCopies?: number;
   createdAt?: string;
 }

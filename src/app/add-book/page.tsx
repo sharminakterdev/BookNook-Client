@@ -32,18 +32,26 @@ export default function AddBookPage() {
       category: String(formData.get("category") || ""),
       image: String(formData.get("image") || "").trim(),
       description: String(formData.get("description") || "").trim(),
-      userName: session.user.name || "",
-      userEmail: session.user.email || "",
       totalCopies: Number(formData.get("totalCopies")),
     };
 
     try {
       setLoading(true);
 
+      // Generate JWT Token
+      const { data: tokenData, error: tokenError } =
+        await authClient.token();
+
+      if (tokenError || !tokenData?.token) {
+        throw new Error("Authentication token not found!");
+      }
+
+      // Send Book Data with JWT
       const res = await fetch("http://localhost:8000/books", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${tokenData.token}`,
         },
         body: JSON.stringify(bookData),
       });
@@ -76,7 +84,6 @@ export default function AddBookPage() {
   return (
     <section className="min-h-screen bg-gray-50 px-4 py-12">
       <div className="mx-auto max-w-4xl">
-        {/* Heading */}
         <div className="mb-8 text-center">
           <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-green-100">
             <FaBookOpen className="text-3xl text-green-600" />
@@ -91,7 +98,6 @@ export default function AddBookPage() {
           </p>
         </div>
 
-        {/* Form */}
         <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-lg md:p-10">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Title & Author */}
@@ -140,7 +146,6 @@ export default function AddBookPage() {
                 <option value="" disabled>
                   Select category
                 </option>
-
                 <option value="Fiction">Fiction</option>
                 <option value="Science">Science</option>
                 <option value="History">History</option>
@@ -231,7 +236,6 @@ export default function AddBookPage() {
 
                 <input
                   type="text"
-                  name="userName"
                   value={session?.user?.name || ""}
                   readOnly
                   placeholder="Loading user name..."
@@ -246,7 +250,6 @@ export default function AddBookPage() {
 
                 <input
                   type="email"
-                  name="userEmail"
                   value={session?.user?.email || ""}
                   readOnly
                   placeholder="Loading user email..."

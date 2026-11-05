@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { toast } from "react-toastify";
+
 import {
   FaBookOpen,
   FaUser,
@@ -89,36 +90,124 @@ export default function RegisterPage() {
 
   return (
     <main className="flex min-h-screen items-center justify-center bg-[#F5F7F2] px-4 py-12">
+
       <div className="grid w-full max-w-5xl overflow-hidden rounded-3xl bg-white shadow-xl md:grid-cols-2">
 
-        {/* Left Side */}
-        <div className="hidden flex-col justify-center bg-[#164E3B] p-12 text-white md:flex">
-          <FaBookOpen className="mb-8 text-6xl" />
+        {/* Left Side - Premium Design */}
+        <div className="relative hidden min-h-full flex-col justify-between overflow-hidden bg-gradient-to-br from-[#103D2E] via-[#164E3B] to-[#28765A] p-12 text-white md:flex">
 
-          <h1 className="mb-5 text-4xl font-bold leading-tight">
-            Welcome to
-            <br />
-            BookNook!
-          </h1>
+          {/* Decorative Background */}
+          <div className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-[#D7B979]/10 blur-3xl" />
 
-          <p className="text-lg leading-8 text-green-100">
-            Discover amazing stories, explore new ideas and
-            find your next favorite book with our reading community.
-          </p>
+          <div className="absolute -bottom-20 -left-20 h-72 w-72 rounded-full bg-emerald-300/10 blur-3xl" />
 
-          <div className="mt-10 rounded-2xl bg-white/10 p-6">
-            <p className="text-lg font-medium italic">
+          {/* Top Content */}
+          <div className="relative z-10">
+
+            <div className="mb-10 flex items-center gap-3">
+
+              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#D7B979] shadow-lg">
+                <FaBookOpen className="text-3xl text-[#164E3B]" />
+              </div>
+
+              <div>
+                <h2 className="text-2xl font-bold tracking-wide">
+                  BookNook
+                </h2>
+
+                <p className="text-xs tracking-widest text-green-200">
+                  YOUR DIGITAL LIBRARY
+                </p>
+              </div>
+
+            </div>
+
+            <span className="inline-block rounded-full border border-[#D7B979]/40 bg-[#D7B979]/10 px-4 py-2 text-xs font-semibold tracking-wider text-[#E9D7A5]">
+              ✦ A WORLD OF STORIES
+            </span>
+
+            <h1 className="mt-7 text-5xl font-bold leading-tight">
+              Every Book
+              <br />
+              Opens a New
+              <br />
+              <span className="font-serif italic text-[#E6CC8A]">
+                Adventure.
+              </span>
+            </h1>
+
+            <p className="mt-6 max-w-sm text-base leading-8 text-green-100/90">
+              Join our reading community. Discover inspiring
+              stories, explore new ideas and find your next
+              favorite book with BookNook.
+            </p>
+
+          </div>
+
+          {/* Floating Book Cards */}
+          <div className="relative z-10 my-12 flex items-center justify-center gap-5">
+
+            <div className="w-36 -rotate-6 rounded-xl border border-white/20 bg-white/10 p-4 shadow-2xl backdrop-blur-md">
+
+              <div className="mb-4 flex h-24 items-center justify-center rounded-lg bg-[#D7B979]">
+                <FaBookOpen className="text-5xl text-[#164E3B]" />
+              </div>
+
+              <p className="text-sm font-semibold">
+                Discover
+              </p>
+
+              <p className="mt-1 text-xs text-green-100">
+                New stories
+              </p>
+
+            </div>
+
+            <div className="w-36 translate-y-5 rotate-6 rounded-xl border border-white/20 bg-white/10 p-4 shadow-2xl backdrop-blur-md">
+
+              <div className="mb-4 flex h-24 items-center justify-center rounded-lg bg-[#E9E5D6]">
+                <FaBookOpen className="text-5xl text-[#164E3B]" />
+              </div>
+
+              <p className="text-sm font-semibold">
+                Explore
+              </p>
+
+              <p className="mt-1 text-xs text-green-100">
+                Endless knowledge
+              </p>
+
+            </div>
+
+          </div>
+
+          {/* Bottom Quote */}
+          <div className="relative z-10 rounded-2xl border border-white/15 bg-white/10 p-6 backdrop-blur-md">
+
+            <p className="font-serif text-xl italic leading-relaxed text-[#F5EBD0]">
               "A reader lives a thousand lives before he dies."
             </p>
-            <p className="mt-3 text-sm text-green-200">
-              — George R. R. Martin
-            </p>
+
+            <div className="mt-4 flex items-center justify-between">
+
+              <span className="text-sm font-medium text-green-100">
+                — George R. R. Martin
+              </span>
+
+              <FaBookOpen className="text-2xl text-[#D7B979]" />
+
+            </div>
+
           </div>
+
         </div>
 
         {/* Right Side - Register Form */}
         <div className="p-6 sm:p-10 md:p-12">
+
+          {/* Heading */}
           <div className="mb-8 text-center">
+
             <div className="mb-4 flex justify-center md:hidden">
               <FaBookOpen className="text-5xl text-green-700" />
             </div>
@@ -130,6 +219,7 @@ export default function RegisterPage() {
             <p className="mt-2 text-sm text-gray-500">
               Join BookNook and start your reading journey.
             </p>
+
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-5">
@@ -251,11 +341,13 @@ export default function RegisterPage() {
             >
               {loading ? "Creating Account..." : "Create Account"}
             </button>
+
           </form>
 
           {/* Login Link */}
           <p className="mt-6 text-center text-sm text-gray-600">
             Already have an account?{" "}
+
             <Link
               href="/login"
               className="font-semibold text-green-700 hover:underline"
@@ -263,8 +355,11 @@ export default function RegisterPage() {
               Login
             </Link>
           </p>
+
         </div>
+
       </div>
+
     </main>
   );
 }

@@ -122,7 +122,6 @@
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Button } from "@heroui/react";
 import { FaBookOpen, FaBars, FaTimes } from "react-icons/fa";
 
 interface NavLink {
@@ -150,6 +149,7 @@ export default function Navbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
             <FaBookOpen className="text-3xl text-green-600" />
+
             <h1 className="text-2xl font-bold text-gray-900">
               Book<span className="text-green-600">Nook</span>
             </h1>
@@ -159,17 +159,19 @@ export default function Navbar() {
           <div className="hidden items-center gap-8 md:flex">
             {navLinks.map((link: NavLink) => {
               const isActive = pathname === link.href;
+
               return (
                 <Link
                   key={link.href}
                   href={link.href}
                   className={`relative pb-1 font-medium transition ${
                     isActive
-                      ? "text-green-600 font-semibold"
+                      ? "font-semibold text-green-600"
                       : "text-gray-700 hover:text-green-600"
                   }`}
                 >
                   {link.name}
+
                   {isActive && (
                     <span className="absolute bottom-0 left-0 h-0.5 w-full bg-green-600" />
                   )}
@@ -178,24 +180,21 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Login & Register */}
+          {/* Desktop Login & Register */}
           <div className="hidden items-center gap-3 md:flex">
-            <Button
-              as={Link}
+            <Link
               href="/login"
-              variant="bordered"
-              className="border-green-600 text-green-600 font-medium"
+              className="rounded-lg border border-green-600 px-5 py-2 font-medium text-green-600 transition hover:bg-green-50"
             >
               Login
-            </Button>
+            </Link>
 
-            <Button
-              as={Link}
+            <Link
               href="/register"
-              className="bg-green-600 text-white font-medium"
+              className="rounded-lg bg-green-600 px-5 py-2 font-medium text-white transition hover:bg-green-700"
             >
               Register
-            </Button>
+            </Link>
           </div>
 
           {/* Mobile Toggle */}
@@ -215,13 +214,16 @@ export default function Navbar() {
           <div className="space-y-3 border-t py-5 md:hidden">
             {navLinks.map((link: NavLink) => {
               const isActive = pathname === link.href;
+
               return (
                 <Link
                   key={link.href}
                   href={link.href}
                   onClick={() => setIsMenuOpen(false)}
                   className={`block font-medium transition ${
-                    isActive ? "text-green-600 font-semibold" : "text-gray-700 hover:text-green-600"
+                    isActive
+                      ? "font-semibold text-green-600"
+                      : "text-gray-700 hover:text-green-600"
                   }`}
                 >
                   {link.name}
@@ -229,25 +231,23 @@ export default function Navbar() {
               );
             })}
 
+            {/* Mobile Login & Register */}
             <div className="flex gap-3 pt-3">
-              <Button
-                as={Link}
+              <Link
                 href="/login"
-                variant="bordered"
-                onPress={() => setIsMenuOpen(false)}
-                className="flex-1 border-green-600 text-green-600"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex-1 rounded-lg border border-green-600 px-4 py-2 text-center font-medium text-green-600"
               >
                 Login
-              </Button>
+              </Link>
 
-              <Button
-                as={Link}
+              <Link
                 href="/register"
-                onPress={() => setIsMenuOpen(false)}
-                className="flex-1 bg-green-600 text-white"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex-1 rounded-lg bg-green-600 px-4 py-2 text-center font-medium text-white"
               >
                 Register
-              </Button>
+              </Link>
             </div>
           </div>
         )}

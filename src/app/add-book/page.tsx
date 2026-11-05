@@ -1,34 +1,46 @@
+
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { FaBookOpen, FaImage } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { authClient } from "@/lib/auth-client";
 
 export default function AddBookPage() {
+  const router = useRouter();
+
+  const { data: session, isPending } = authClient.useSession();
+
   const [imageUrl, setImageUrl] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const form = event.currentTarget;
-    setLoading(true);
+    if (!session?.user) {
+      toast.error("Please login before adding a book!");
+      return;
+    }
 
+    const form = event.currentTarget;
     const formData = new FormData(form);
 
     const bookData = {
-      title: formData.get("title"),
-      author: formData.get("author"),
-      category: formData.get("category"),
-      image: formData.get("image"),
-      description: formData.get("description"),
-      userName: formData.get("userName"),
-      userEmail: formData.get("userEmail"),
+      title: String(formData.get("title") || "").trim(),
+      author: String(formData.get("author") || "").trim(),
+      category: String(formData.get("category") || ""),
+      image: String(formData.get("image") || "").trim(),
+      description: String(formData.get("description") || "").trim(),
+      userName: session.user.name || "",
+      userEmail: session.user.email || "",
       totalCopies: Number(formData.get("totalCopies")),
     };
 
     try {
-      const res = await fetch("http://localhost:8000/add-book", {
+      setLoading(true);
+
+      const res = await fetch("http://localhost:8000/books", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -42,16 +54,19 @@ export default function AddBookPage() {
         throw new Error(data.message || "Failed to add book");
       }
 
-      // শুধু টোস্ট নোটিফিকেশন দেখাবে
       toast.success("Book added successfully! 📚");
 
       form.reset();
       setImageUrl("");
+
+      router.refresh();
     } catch (error) {
-      console.error(error);
+      console.error("Add Book Error:", error);
 
       toast.error(
-        error instanceof Error ? error.message : "Something went wrong!"
+        error instanceof Error
+          ? error.message
+          : "Something went wrong!"
       );
     } finally {
       setLoading(false);
@@ -217,8 +232,9 @@ export default function AddBookPage() {
                 <input
                   type="text"
                   name="userName"
+                  value={session?.user?.name || ""}
                   readOnly
-                  placeholder="Logged-in user name"
+                  placeholder="Loading user name..."
                   className="w-full rounded-lg border border-gray-200 bg-gray-100 px-4 py-3 text-gray-900"
                 />
               </div>
@@ -231,8 +247,9 @@ export default function AddBookPage() {
                 <input
                   type="email"
                   name="userEmail"
+                  value={session?.user?.email || ""}
                   readOnly
-                  placeholder="Logged-in user email"
+                  placeholder="Loading user email..."
                   className="w-full rounded-lg border border-gray-200 bg-gray-100 px-4 py-3 text-gray-900"
                 />
               </div>
@@ -241,10 +258,14 @@ export default function AddBookPage() {
             {/* Submit Button */}
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || isPending || !session?.user}
               className="w-full rounded-lg bg-green-600 py-3.5 font-semibold text-white transition hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-60"
             >
-              {loading ? "Adding Book..." : "Add Book"}
+              {loading
+                ? "Adding Book..."
+                : isPending
+                  ? "Loading User..."
+                  : "Add Book"}
             </button>
           </form>
         </div>
